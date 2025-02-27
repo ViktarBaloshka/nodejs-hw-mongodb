@@ -21,9 +21,9 @@ const contactsSchema = new Schema(
       type: String,
       enum: ['work', 'home', 'personal'],
       required: true,
-      default: 'presonal',
+      default: 'personal',
     },
   },
   { timestamps: true },
 );
-export const ContactsCollection = model('contacts', contactsSchema);
+export const ContactsCollection = model('Contacts', contactsSchema);
