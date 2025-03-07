@@ -20,3 +20,7 @@ export const updateContact = async (contactId, contact) => {
     new: true,
   });
 };
+
+export const deleteContact = async (contactId) => {
+  return ContactsCollection.findByIdAndDelete(contactId);
+};
