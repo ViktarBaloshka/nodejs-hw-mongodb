@@ -7,6 +7,6 @@ export const validateBody = (schemaValidation) => async (req, res, next) => {
     });
     next();
   } catch (err) {
-    next(createError.BadRequest(err.message));
+    next(new createError.BadRequest(err.message));
   }
 };
