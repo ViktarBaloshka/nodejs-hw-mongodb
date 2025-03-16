@@ -6,10 +6,15 @@ const parseContactType = (type) => {
 };
 
 const parseIsFavourite = (favourite) => {
-  const isBoolean = typeof favourite === 'boolean';
-  if (!isBoolean) return;
+  const isString = typeof favourite === 'string';
+  if (!isString) return;
 
-  return favourite;
+  if (favourite === 'false') {
+    return false;
+  } else if (favourite === 'true') {
+    return true;
+  }
+  return;
 };
 
 export const parseFilterParams = (query) => {
