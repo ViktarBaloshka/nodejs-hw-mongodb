@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { contactsRouter } from './routers/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import { registerRouter } from './routers/auth.js';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 3100;
@@ -23,6 +24,7 @@ export function setupServer() {
     }),
   );
 
+  app.use('/auth', registerRouter);
   app.use('/contacts', contactsRouter);
 
   app.use(notFoundHandler);
