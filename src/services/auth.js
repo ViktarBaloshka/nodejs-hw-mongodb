@@ -27,7 +27,6 @@ const createSession = () => {
     refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
   };
 };
-const newSession = createSession();
 
 export const loginUser = async (payload) => {
   const user = await UserCollection.findOne({ email: payload.email });
@@ -39,6 +38,7 @@ export const loginUser = async (payload) => {
   if (!isEqual) {
     throw createHttpError.Unauthorized('Unauthorized');
   }
+  const newSession = createSession();
 
   await SessionsCollection.deleteOne({ userId: user._id });
 
@@ -63,8 +63,16 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   }
   await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
 
+  const newSession = createSession();
+
   return await SessionsCollection.create({
     userId: session.userId,
     ...newSession,
+  });
+};
+
+export const logoutUsersSession = async ({ sessionId }) => {
+  await SessionsCollection.deleteOne({
+    _id: sessionId,
   });
 };
