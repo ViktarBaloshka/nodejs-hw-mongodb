@@ -40,4 +40,8 @@ contactsRouter.patch(
   ctrlWrapper(updateContactController),
 );
 
-contactsRouter.delete('/:contactId', ctrlWrapper(deleteContactController));
+contactsRouter.delete(
+  '/:contactId',
+  isValidId,
+  ctrlWrapper(deleteContactController),
+);
