@@ -3,20 +3,19 @@ import { SessionsCollection } from '../db/models/session.js';
 import { UserCollection } from '../db/models/user.js';
 
 export const authenticate = async (req, res, next) => {
-  const authHeader = req.get('Authorization');
-  if (!authHeader) {
+  const { authorization } = req.headers;
+  if (typeof authorization !== 'string') {
     next(createHttpError(401, 'Please provide Authorization header'));
     return;
   }
 
-  const bearer = authHeader.split(' ')[0];
-  const token = authHeader.split(' ')[1];
-  if (bearer !== 'Bearer' || !token) {
+  const [bearer, accessToken] = authorization.split(' ', 2);
+  if (bearer !== 'Bearer' || typeof accessToken !== 'string') {
     next(createHttpError(401, 'Auth header should be of type Bearer'));
     return;
   }
 
-  const session = await SessionsCollection.findOne({ accessToken: token });
+  const session = await SessionsCollection.findOne({ accessToken });
   if (!session) {
     return next(createHttpError(401, 'Session not found'));
   }

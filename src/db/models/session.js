@@ -4,6 +4,7 @@ const sessionsSchema = new Schema(
   {
     userId: {
       type: String,
+      ref: 'users',
       required: true,
     },
     accessToken: {
