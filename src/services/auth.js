@@ -38,9 +38,9 @@ export const loginUser = async (payload) => {
   if (!isEqual) {
     throw createHttpError.Unauthorized('Unauthorized');
   }
-  const newSession = createSession();
 
   await SessionsCollection.deleteOne({ userId: user._id });
+  const newSession = createSession();
 
   return await SessionsCollection.create({
     userId: user._id,
@@ -71,7 +71,7 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   });
 };
 
-export const logoutUsersSession = async ({ sessionId }) => {
+export const logoutUsersSession = async (sessionId) => {
   await SessionsCollection.deleteOne({
     _id: sessionId,
   });
