@@ -1,9 +1,11 @@
+import createHttpError from 'http-errors';
 import {
   loginUser,
   logoutUsersSession,
   refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
+import { SessionsCollection } from '../db/models/session.js';
 
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
@@ -55,9 +57,17 @@ export const refreshUsersSessionController = async (req, res) => {
 
 export const logoutUsersController = async (req, res) => {
   const { sessionId } = req.cookies;
-  if (sessionId) {
-    await logoutUsersSession(sessionId);
+  if (!sessionId) {
+    throw createHttpError(401, 'Session not found');
   }
+
+  const session = await SessionsCollection.findOne({ _id: sessionId });
+
+  if (!session) {
+    throw createHttpError(401, 'Session not found');
+  }
+
+  await logoutUsersSession(sessionId);
   res.clearCookie('sessionId');
   res.clearCookie('refreshToken');
   res.status(204).end();
