@@ -31,4 +31,11 @@ const contactsSchema = new Schema(
 
   { timestamps: true, versionKey: false },
 );
+
+contactsSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.userId;
+  return obj;
+};
+
 export const ContactsCollection = model('Contact', contactsSchema);

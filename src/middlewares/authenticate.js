@@ -23,6 +23,7 @@ export const authenticate = async (req, res, next) => {
   const isAccessTokenExpired =
     new Date() > new Date(session.accessTokenValidUntil);
   if (isAccessTokenExpired) {
+    await SessionsCollection.deleteOne({ _id: session._id });
     next(createHttpError(401, 'Access token expired'));
   }
 
