@@ -76,3 +76,10 @@ export const logoutUsersSession = async (sessionId) => {
     _id: sessionId,
   });
 };
+
+export const requestResetToken = async (email) => {
+  const user = await UserCollection.findOne({ email });
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+};
