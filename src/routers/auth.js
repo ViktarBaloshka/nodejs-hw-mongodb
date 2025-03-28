@@ -3,14 +3,14 @@ import { validateBody } from '../middlewares/validateBody.js';
 import {
   loginUserSchema,
   registerUserSchema,
-  requestResetEmailSchema,
+  requestResetPasswordSchema,
 } from '../validation/auth.js';
 import {
   loginUserController,
   logoutUsersController,
   refreshUsersSessionController,
   registerUserController,
-  requestResetEmailController,
+  requestResetPasswordController,
 } from '../controllers/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
@@ -33,6 +33,6 @@ authRouter.post('/refresh', ctrlWrapper(refreshUsersSessionController));
 authRouter.post('/logout', ctrlWrapper(logoutUsersController));
 authRouter.post(
   '/send-reset-email',
-  validateBody(requestResetEmailSchema),
-  ctrlWrapper(requestResetEmailController),
+  validateBody(requestResetPasswordSchema),
+  ctrlWrapper(requestResetPasswordController),
 );
