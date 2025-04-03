@@ -10,6 +10,7 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -48,8 +49,11 @@ export const getContactsByIdController = async (req, res, _next) => {
 export const createContactController = async (req, res) => {
   const photo = req.file;
   let photoUrl;
+
   if (photo) {
-    photoUrl = await saveFileToUploadDir(photo);
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else photoUrl = await saveFileToUploadDir(photo);
   }
 
   const contact = await createContact(
@@ -69,7 +73,9 @@ export const updateContactController = async (req, res) => {
   let photoUrl;
 
   if (photo) {
-    photoUrl = await saveFileToUploadDir(photo);
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else photoUrl = await saveFileToUploadDir(photo);
   }
 
   const contact = await updateContact(
