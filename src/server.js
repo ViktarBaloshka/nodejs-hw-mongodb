@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { router } from './routers/index.js';
+import { UPLOAD_DIR } from './constants/index.js';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 3100;
@@ -26,6 +27,8 @@ export function setupServer() {
       },
     }),
   );
+
+  app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.use(notFoundHandler);
 

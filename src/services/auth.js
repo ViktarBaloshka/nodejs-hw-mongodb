@@ -4,6 +4,8 @@ import { randomBytes } from 'crypto';
 import { UserCollection } from '../db/models/user.js';
 import { SessionsCollection } from '../db/models/session.js';
 import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
+import { sendEmail } from '../utils/sendEmail.js';
+import jwt from 'jsonwebtoken';
 
 export const registerUser = async (payload) => {
   const user = await UserCollection.findOne({ email: payload.email });
@@ -77,9 +79,55 @@ export const logoutUsersSession = async (sessionId) => {
   });
 };
 
-export const requestResetToken = async (email) => {
+export const requestResetPassword = async (email) => {
   const user = await UserCollection.findOne({ email });
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
+  const resetToken = jwt.sign(
+    {
+      sub: user._id,
+      email,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '15min',
+    },
+  );
+
+  await sendEmail({
+    from: process.env.SMTP_FROM,
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>
+        Click <a href="${process.env.APP_DOMAIN}/reset-password?token=${resetToken}">here</a> to reset your password!
+      </p>`,
+  });
+};
+
+export const resetPassword = async (payload) => {
+  let entries;
+
+  try {
+    entries = jwt.verify(payload.token, process.env.JWT_SECRET);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw createHttpError(error.message);
+    }
+    throw error;
+  }
+  const user = await UserCollection.findOne({
+    email: entries.email,
+    _id: entries.sub,
+  });
+
+  if (!user) {
+    throw createHttpError(404, 'User not found!');
+  }
+
+  const encryptedPassword = await bcrypt.hash(payload.password, 10);
+  await UserCollection.updateOne(
+    { _id: user._id },
+    { password: encryptedPassword },
+  );
 };

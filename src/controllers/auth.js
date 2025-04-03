@@ -4,9 +4,10 @@ import {
   logoutUsersSession,
   refreshUsersSession,
   registerUser,
-  requestResetToken,
+  requestResetPassword,
 } from '../services/auth.js';
 import { SessionsCollection } from '../db/models/session.js';
+import { resetPassword } from '../services/auth.js';
 
 const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
@@ -74,11 +75,19 @@ export const logoutUsersController = async (req, res) => {
   res.status(204).end();
 };
 
-export const requestResetEmailController = async (req, res) => {
-  await requestResetToken(req.body.email);
+export const requestResetPasswordController = async (req, res) => {
+  await requestResetPassword(req.body.email);
   res.json({
     message: 'Reset password email was successfully send',
     status: 200,
+    data: {},
+  });
+};
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    status: 200,
+    message: 'Password has been successfully reset.',
     data: {},
   });
 };

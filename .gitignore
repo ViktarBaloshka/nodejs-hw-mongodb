@@ -131,3 +131,5 @@ dist
 
 #WebStorm IDE
 .idea
+
+.gitkeep
