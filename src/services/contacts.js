@@ -23,7 +23,7 @@ export const getAllContacts = async ({
   }
 
   const [contactsCount, contacts] = await Promise.all([
-    ContactsCollection.find().countDocuments({userId}),
+    ContactsCollection.find().countDocuments({ userId }),
     contactsQuery
       .skip(skip)
       .limit(limit)
@@ -39,14 +39,14 @@ export const getAllContacts = async ({
 };
 
 export const getContactsById = async (contactId, userId) => {
-  return  ContactsCollection.findOne({
+  return ContactsCollection.findOne({
     _id: contactId,
     userId,
   });
 };
 
 export const createContact = async (payload, userId) => {
-  return  await ContactsCollection.create({ ...payload, userId });
+  return await ContactsCollection.create({ ...payload, userId });
 };
 
 export const updateContact = async (contactId, contact, userId) => {

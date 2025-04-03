@@ -27,9 +27,15 @@ const contactsSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
+    photo: {
+      type: String,
+    },
   },
 
-  { timestamps: true, versionKey: false },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
 );
 
 contactsSchema.methods.toJSON = function () {

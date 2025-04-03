@@ -100,7 +100,7 @@ export const requestResetPassword = async (email) => {
     to: email,
     subject: 'Reset your password',
     html: `<p>
-        Click <a href="${process.env.APP_DOMAIN}/reset-pwd?token=${resetToken}">here</a> to reset your password!
+        Click <a href="${process.env.APP_DOMAIN}/reset-password?token=${resetToken}">here</a> to reset your password!
       </p>`,
   });
 };
