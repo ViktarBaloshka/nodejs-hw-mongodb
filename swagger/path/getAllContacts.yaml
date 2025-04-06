@@ -1,0 +1,85 @@
+tags:
+  - Get all contacts
+summary: Get all contacts in logged user
+operationId: getAllContacts
+description: 'Get all contacts in logged user'
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: number
+      default: 1
+      example: 1
+  - in: query
+    name: perPage
+    schema:
+      type: number
+      default:
+      example: 10
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      enum: ['asc', 'desc']
+      default: asc
+      example: 'asc'
+  - in: query
+    name: sortBy
+    schema:
+      type: string
+      example: home
+responses:
+  '200':
+    description: Successfully found contacts!
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contacts!
+            data:
+              type: object
+              required:
+                - data
+                - page
+                - perPage
+                - totalItems
+                - totalPages
+                - hasNextPage
+                - hasPreviousPage
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: ../components/schemas/contact.yaml
+                page:
+                  type: number
+                  example: 1
+                perPage:
+                  type: number
+                  example: 10
+                totalItems:
+                  type: number
+                  example: 20
+                totalPages:
+                  type: number
+                  example: 5
+                hasNextPage:
+                  type: boolean
+                  example: false
+                hasPreviousPage:
+                  type: boolean
+                  example: true
+  '401':
+    $ref: '../components/responses/401.yaml'
