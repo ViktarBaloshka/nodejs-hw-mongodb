@@ -7,6 +7,7 @@ import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
 import { sendEmail } from '../utils/sendEmail.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 export const registerUser = async (payload) => {
