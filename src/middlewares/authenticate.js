@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import { SessionsCollection } from '../db/models/session.js';
 import { UserCollection } from '../db/models/user.js';
 
-export const authenticate = async (req, res, next) => {
+export const authenticate = async (req, _res, next) => {
   const { authorization } = req.headers;
   if (typeof authorization !== 'string') {
     next(createHttpError(401, 'Please provide Authorization header'));

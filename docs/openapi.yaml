@@ -1,0 +1,32 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contacts book
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: Contacts book docs
+tags:
+  - name: Contacts operations
+    description: Contacts operations
+  - name: Get all contacts
+    description: Get all contacts
+  # теги, що ви будете використовувати
+servers:
+  - url: http://localhost:3100
+  - url: https://nodejs-hw-mongodb-b910.onrender.com
+paths:
+  # тут будуть посилання на ендпоінти
+  /contacts/{contactId}:
+    get:
+      $ref: '../swagger/path/contacts/{contactId}/getContactById.yaml'
+  /contacts:
+    post:
+      $ref: '../swagger/path/createContact.yaml'
+    get:
+      $ref: '../swagger/path/getAllContacts.yaml'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
