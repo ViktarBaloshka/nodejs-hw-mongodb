@@ -21,6 +21,8 @@ paths:
     get:
       $ref: '../swagger/path/contacts/{contactId}/getContactById.yaml'
   /contacts:
+    post:
+      $ref: '../swagger/path/createContact.yaml'
     get:
       $ref: '../swagger/path/getAllContacts.yaml'
 components:

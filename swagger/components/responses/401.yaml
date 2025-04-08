@@ -15,5 +15,5 @@ content:
           type: string
           example: Something went wrong
         data:
-          type: string
+          type: object
           example: 'Access token expired'
