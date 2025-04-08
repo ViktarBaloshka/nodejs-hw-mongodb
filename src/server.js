@@ -7,6 +7,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { router } from './routers/index.js';
 import { UPLOAD_DIR } from './constants/index.js';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 dotenv.config();
 const PORT = Number(process.env.PORT) || 3100;
@@ -29,6 +30,7 @@ export function setupServer() {
   );
 
   app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/docs', swaggerDocs());
 
   app.use(notFoundHandler);
 

@@ -82,26 +82,35 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "404": {
             "$ref": "#/components/responses/404"
           }
         }
-      }
-    },
-    "/contacts": {
-      "post": {
-        "401": {
-          "$ref": "../components/responses/401.yaml"
-        },
+      },
+      "patch": {
         "tags": [
           "Contacts operations"
         ],
-        "summary": "Create contact",
-        "operationId": "createContact",
-        "description": "Create a contact with payload",
+        "summary": "Update contact",
+        "operationId": "updateContact",
+        "description": "Update a contact with payload",
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67e3b848b37d9050e8a0d3d4"
+            }
           }
         ],
         "requestBody": {
@@ -109,36 +118,40 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "phoneNumber",
-                  "contactType",
-                  "userId"
-                ],
-                "parameters": {
+                "properties": {
                   "name": {
                     "description": "Name contact",
                     "type": "string",
-                    "example": "Kateryna Kovalchuk",
-                    "phoneNumber": {
-                      "description": "Number phone",
-                      "type": "string",
-                      "example": "+380000000000"
-                    },
-                    "contactType": {
-                      "description": "Type contact",
-                      "type": "string",
-                      "enum": [
-                        "work",
-                        "home",
-                        "personal"
-                      ]
-                    },
-                    "userId": {
-                      "description": "User logged ID",
-                      "type": "string",
-                      "example": "67e3b848b37d9050e8a0d3d4"
-                    }
+                    "example": "Kateryna Kovalchuk"
+                  },
+                  "phoneNumber": {
+                    "description": "Number phone",
+                    "type": "string",
+                    "example": "+380000000000"
+                  },
+                  "email": {
+                    "description": "Email",
+                    "type": "string",
+                    "example": "email@mail.com"
+                  },
+                  "isFavourite": {
+                    "description": "Is favourite contact",
+                    "type": "boolean",
+                    "example": false
+                  },
+                  "contactType": {
+                    "description": "Type contact",
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ]
+                  },
+                  "photo": {
+                    "description": "Photo contact",
+                    "type": "string",
+                    "example": "https://res.cloudinary.com/dyvg7qouu/image/upload/v1743940461/tzv6iqmon1hdkrx1zcwd.jpg"
                   }
                 }
               }
@@ -146,8 +159,8 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Create contact",
+          "200": {
+            "description": "Update contact",
             "content": {
               "application/json": {
                 "schema": {
@@ -160,11 +173,11 @@
                   "properties": {
                     "status": {
                       "type": "integer",
-                      "example": 201
+                      "example": 200
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully created a contact!"
+                      "example": "Successfully patched a contact!"
                     },
                     "data": {
                       "type": "object",
@@ -174,9 +187,52 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
           }
         }
       },
+      "delete": {
+        "tags": [
+          "Contacts operations"
+        ],
+        "summary": "Delete contact",
+        "operationId": "deleteContact",
+        "description": "Delete contact",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67e3b848b37d9050e8a0d3d4"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Delete contact by id"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/contacts": {
       "get": {
         "tags": [
           "Get all contacts"
@@ -304,6 +360,94 @@
             "$ref": "#/components/responses/401"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Contacts operations"
+        ],
+        "summary": "Create contact",
+        "operationId": "createContact",
+        "description": "Create a contact with payload",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "phoneNumber",
+                  "contactType",
+                  "userId"
+                ],
+                "properties": {
+                  "name": {
+                    "description": "Name contact",
+                    "type": "string",
+                    "example": "Kateryna Kovalchuk"
+                  },
+                  "phoneNumber": {
+                    "description": "Number phone",
+                    "type": "string",
+                    "example": "+380000000000"
+                  },
+                  "contactType": {
+                    "description": "Type contact",
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ]
+                  },
+                  "userId": {
+                    "description": "User logged ID",
+                    "type": "string",
+                    "example": "67e3b848b37d9050e8a0d3d4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create contact",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully created a contact!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/contact"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
       }
     }
   },
@@ -365,6 +509,35 @@
       }
     },
     "responses": {
+      "400": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "data": {
+                  "type": "object",
+                  "example": "Bad request"
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Session not found",
         "content": {

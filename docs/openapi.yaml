@@ -11,20 +11,22 @@ tags:
     description: Contacts operations
   - name: Get all contacts
     description: Get all contacts
-  # теги, що ви будете використовувати
 servers:
   - url: http://localhost:3100
   - url: https://nodejs-hw-mongodb-b910.onrender.com
 paths:
-  # тут будуть посилання на ендпоінти
   /contacts/{contactId}:
     get:
       $ref: '../swagger/path/contacts/{contactId}/getContactById.yaml'
+    patch:
+      $ref: '../swagger/path/contacts/{contactId}/updateContact.yaml'
+    delete:
+      $ref: '../swagger/path/contacts/{contactId}/deleteContact.yaml'
   /contacts:
-    post:
-      $ref: '../swagger/path/createContact.yaml'
     get:
       $ref: '../swagger/path/getAllContacts.yaml'
+    post:
+      $ref: '../swagger/path/createContact.yaml'
 components:
   securitySchemes:
     bearerAuth:
