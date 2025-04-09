@@ -1,8 +1,8 @@
 tags:
-  - Get all contacts
-summary: Get all contacts in logged user
+  - Contacts operations
+summary: Get all contacts
 operationId: getAllContacts
-description: 'Get all contacts in logged user'
+description: 'Get all contacts'
 security:
   - bearerAuth: []
 parameters:

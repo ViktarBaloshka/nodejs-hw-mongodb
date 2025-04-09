@@ -14,7 +14,6 @@ requestBody:
           - name
           - phoneNumber
           - contactType
-          - userId
         properties:
           name:
             description: 'Name contact'
@@ -24,14 +23,22 @@ requestBody:
             description: 'Number phone'
             type: string
             example: '+380000000000'
+          email:
+            description: 'Email contact'
+            type: string
+            example: 'email@mail.com'
+          isFavourite:
+            description: 'favourite contact'
+            type: boolean
+            example: false
           contactType:
             description: 'Type contact'
             type: string
             enum: ['work', 'home', 'personal']
-          userId:
-            description: 'User logged ID'
+          photo:
+            description: 'Photo contact'
             type: string
-            example: '67e3b848b37d9050e8a0d3d4'
+            format: binary
 responses:
   '201':
     description: Create contact
