@@ -9,8 +9,6 @@ info:
 tags:
   - name: Contacts operations
     description: Contacts operations
-  - name: Get all contacts
-    description: Get all contacts
 servers:
   - url: http://localhost:3100
   - url: https://nodejs-hw-mongodb-b910.onrender.com

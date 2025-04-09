@@ -21,10 +21,6 @@
     {
       "name": "Contacts operations",
       "description": "Contacts operations"
-    },
-    {
-      "name": "Get all contacts",
-      "description": "Get all contacts"
     }
   ],
   "paths": {
@@ -151,7 +147,7 @@
                   "photo": {
                     "description": "Photo contact",
                     "type": "string",
-                    "example": "https://res.cloudinary.com/dyvg7qouu/image/upload/v1743940461/tzv6iqmon1hdkrx1zcwd.jpg"
+                    "format": "binary"
                   }
                 }
               }
@@ -235,11 +231,11 @@
     "/contacts": {
       "get": {
         "tags": [
-          "Get all contacts"
+          "Contacts operations"
         ],
-        "summary": "Get all contacts in logged user",
+        "summary": "Get all contacts",
         "operationId": "getAllContacts",
-        "description": "Get all contacts in logged user",
+        "description": "Get all contacts",
         "security": [
           {
             "bearerAuth": []
@@ -381,8 +377,7 @@
                 "required": [
                   "name",
                   "phoneNumber",
-                  "contactType",
-                  "userId"
+                  "contactType"
                 ],
                 "properties": {
                   "name": {
@@ -395,6 +390,16 @@
                     "type": "string",
                     "example": "+380000000000"
                   },
+                  "email": {
+                    "description": "Email contact",
+                    "type": "string",
+                    "example": "email@mail.com"
+                  },
+                  "isFavourite": {
+                    "description": "favourite contact",
+                    "type": "boolean",
+                    "example": false
+                  },
                   "contactType": {
                     "description": "Type contact",
                     "type": "string",
@@ -404,10 +409,10 @@
                       "personal"
                     ]
                   },
-                  "userId": {
-                    "description": "User logged ID",
+                  "photo": {
+                    "description": "Photo contact",
                     "type": "string",
-                    "example": "67e3b848b37d9050e8a0d3d4"
+                    "format": "binary"
                   }
                 }
               }
@@ -468,7 +473,8 @@
           "email",
           "isFavourite",
           "contactType",
-          "photo"
+          "photo",
+          "userId"
         ],
         "properties": {
           "_id": {
@@ -503,7 +509,12 @@
           "photo": {
             "description": "Link to contact photo",
             "type": "string",
-            "example": "https://res.cloudinary.com/dyvg7qouu/image/upload/v1743940461/tzv6iqmon1hdkrx1zcwd.jpg"
+            "format": "binary"
+          },
+          "userId": {
+            "description": "User id",
+            "type": "string",
+            "example": "67f598e52074bff13e40c001"
           }
         }
       }
