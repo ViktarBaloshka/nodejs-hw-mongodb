@@ -17,7 +17,8 @@ export const authenticate = async (req, _res, next) => {
 
   const session = await SessionsCollection.findOne({ accessToken });
   if (!session) {
-    return next(createHttpError(401, 'Session not found'));
+    next(createHttpError(401, 'Session not found'));
+    return;
   }
 
   const isAccessTokenExpired =
@@ -25,6 +26,7 @@ export const authenticate = async (req, _res, next) => {
   if (isAccessTokenExpired) {
     await SessionsCollection.deleteOne({ _id: session._id });
     next(createHttpError(401, 'Access token expired'));
+    return;
   }
 
   const user = await UserCollection.findById(session.userId);
